@@ -1,17 +1,27 @@
+# Utiliser une image de base Python légère
 FROM python:3.6-slim-buster
 
-RUN apk add --no-cache python3-dev \
-    && pip3 install --upgrade pip
-
+# Définir le répertoire de travail
 WORKDIR /app
-COPY . /app
-# RUN pip3 --no-cache-dir install -r requirements.txt
-RUN pip install -r requirements.txt
 
+# Copier le fichier requirements.txt dans le conteneur
+COPY requirements.txt requirements.txt
+
+# Installer les dépendances
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copier le reste de l'application dans le conteneur, y compris data.csv
+COPY . .
+
+# Exposer le port sur lequel l'application sera disponible
 EXPOSE 4585
 
-ENTRYPOINT ["python3"]
+# Définir le point d'entrée du conteneur
+ENTRYPOINT ["python"]
+
+# Définir la commande par défaut pour exécuter l'application
 CMD ["app.py"]
+
 
 # WORKDIR /app
 
