@@ -25,7 +25,7 @@ print("You said port is : {} ".format(port))
 # class HelloWorld(Resource):
 @app.route('/', methods=['GET'])
 def get():
-    return {'hello': 'world Port : {} '.format(port)}
+    return {'hello': 'world Port : '+port}
 
 # api.add_resource(HelloWorld, '/')
 
