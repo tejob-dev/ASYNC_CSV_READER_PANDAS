@@ -40,12 +40,13 @@ def check_elector_sync(data, task_id):
     try:
         datacsv = pd.read_csv(
             "./data.csv",
-            usecols=["Nom/Nom de Jeune Fille", "Prenoms", "Date de Naissance"],
+            usecols=["Numero Electeur" ,"Nom/Nom de Jeune Fille", "Prenoms", "Date de Naissance"],
             chunksize=250000,
             delimiter=",",
             encoding="latin-1"
         )
         iselectoratfind = False
+        thereelectorcard = None
         chunkidx = 0
 
         if data and data['nom'] and data['prenom'] and data['date_naiss']:
@@ -61,13 +62,14 @@ def check_elector_sync(data, task_id):
                         df.loc[i, "Date de Naissance"] == data["date_naiss"]
                     ):
                         iselectoratfind = True
+                        thereelectorcard = df.loc[i, "Numero Electeur"]
                         break
 
                 task_states[task_id]["progress"] = int((idx + 1) / len(list(datacsv)) * 100)
 
         task_states[task_id] = {
             "state": "COMPLETED",
-            "result": {"data": iselectoratfind, "status": 200, "chunk": chunkidx, "exec_time": time.time()}
+            "result": {"data": iselectoratfind, "cardelect":thereelectorcard, "status": 200, "chunk": chunkidx, "exec_time": time.time()}
         }
     except Exception as e:
         task_states[task_id] = {
