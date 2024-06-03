@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Exposer le port sur lequel l'application sera disponible
-EXPOSE 4585
+EXPOSE 5585
 
 # Définir le point d'entrée du conteneur
 ENTRYPOINT ["python"]
