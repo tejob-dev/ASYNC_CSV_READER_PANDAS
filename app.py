@@ -23,8 +23,9 @@ if sys.argv.__len__() > 1:
 print("You said port is : {} ".format(port))
 
 # class HelloWorld(Resource):
-#     def get(self):
-#         return {'hello': 'world Port : {} '.format(port)}
+@app.route('/', methods=['GET'])
+def get():
+    return {'hello': 'world Port : {} '.format(port)}
 
 # api.add_resource(HelloWorld, '/')
 
