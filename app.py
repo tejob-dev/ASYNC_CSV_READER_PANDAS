@@ -41,7 +41,7 @@ def check_elector_sync(data, task_id):
     try:
         datacsv = pd.read_csv(
             "./cocody.csv",
-            usecols=["Numero Electeur" ,"Nom/Nom de Jeune Fille", "Prenoms", "Date de Naissance"],
+            usecols=["Numero Electeur" , "Libelle Lieu de Vote","Nom/Nom de Jeune Fille", "Prenoms", "Date de Naissance"],
             chunksize=250000,
             delimiter=",",
             encoding="latin-1"
