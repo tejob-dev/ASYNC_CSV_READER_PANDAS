@@ -40,7 +40,7 @@ def remove_accents_and_uppercase(input_str):
 def check_elector_sync(data, task_id):
     try:
         datacsv = pd.read_csv(
-            "./data.csv",
+            "./cocody.csv",
             usecols=["Numero Electeur" ,"Nom/Nom de Jeune Fille", "Prenoms", "Date de Naissance"],
             chunksize=250000,
             delimiter=",",
@@ -48,6 +48,7 @@ def check_elector_sync(data, task_id):
         )
         iselectoratfind = False
         thereelectorcard = None
+        thereelectorlv = None
         chunkidx = 0
 
         if data and data['nom'] and data['prenom'] and data['date_naiss']:
@@ -64,13 +65,14 @@ def check_elector_sync(data, task_id):
                     ):
                         iselectoratfind = True
                         thereelectorcard = df.loc[i, "Numero Electeur"]
+                        thereelectorlv = df.loc[i, "Libelle Lieu de Vote"]
                         break
 
                 task_states[task_id]["progress"] = int((idx + 1) / len(list(datacsv)) * 100)
 
         task_states[task_id] = {
             "state": "COMPLETED",
-            "result": {"data": iselectoratfind, "cardelect":thereelectorcard, "status": 200, "chunk": chunkidx, "exec_time": time.time()}
+            "result": {"data": iselectoratfind, "cardelect":thereelectorcard, "lvname":thereelectorlv, "status": 200, "chunk": chunkidx, "exec_time": time.time()}
         }
     except Exception as e:
         task_states[task_id] = {
